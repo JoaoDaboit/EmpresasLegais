@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F3864">
+<title>Controle de Produção</title>
+<style>
+:root{--bg:#F4F6F9;--card:#fff;--tx:#1b2430;--mut:#5d6b7a;--navy:#1F3864;--pet:#1F5F6B;--ln:#dde3ea;--lk:#1F5F6B;
+--c0:#F8D0D0;--b0:#C0392B;--c1:#FDDDB8;--b1:#D9822B;--c2:#FFF3B8;--b2:#C9A800;--c3:#D5EDD5;--b3:#3E8E41;--c4:#ECEFF2;--b4:#8A96A3;--c5:#CFE2F6;--b5:#2F6DB5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1720;--card:#18222d;--tx:#e6edf3;--mut:#9fb0c0;--ln:#2b3845;--lk:#6cc0cf;--c0:#5a2a2a;--c1:#5a3e1f;--c2:#55491a;--c3:#26452a;--c4:#30363d;--c5:#213a57}}
+:root[data-theme="dark"]{--bg:#0f1720;--card:#18222d;--tx:#e6edf3;--mut:#9fb0c0;--ln:#2b3845;--lk:#6cc0cf;--c0:#5a2a2a;--c1:#5a3e1f;--c2:#55491a;--c3:#26452a;--c4:#30363d;--c5:#213a57}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 Calibri,Aptos,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+header h1{margin:0;font-size:17px;font-weight:700}
+header h1 small{display:block;font-size:11px;font-weight:400;opacity:.85}
+header button{background:transparent;color:#fff;border:1px solid #ffffff55;border-radius:8px;padding:6px 10px;font:inherit}
+main{max-width:920px;margin:0 auto;padding:12px 12px 90px}
+h2{font-size:16px;margin:18px 0 8px;color:var(--pet)}h2 small{color:var(--mut);font-weight:400}
+.kp{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:640px){.kp{grid-template-columns:repeat(4,1fr)}}
+.kp div{background:var(--pet);color:#fff;border-radius:10px;padding:10px 12px}
+.kp div.k1{background:var(--navy)}.kp b{display:block;font-size:24px}.kp span{font-size:12px;opacity:.9}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-weight:600;padding:7px 6px;text-align:center;font-size:13px}
+td{padding:7px 6px;text-align:center;border-top:1px solid var(--ln)}td:first-child,th:first-child{text-align:left;padding-left:10px}
+.card{background:var(--card);border-radius:10px;border-left:6px solid var(--b);padding:10px 12px;margin:8px 0;box-shadow:0 1px 2px #0002}
+.s0{--b:var(--b0);--c:var(--c0)}.s1{--b:var(--b1);--c:var(--c1)}.s2{--b:var(--b2);--c:var(--c2)}.s3{--b:var(--b3);--c:var(--c3)}.s4{--b:var(--b4);--c:var(--c4)}.s5{--b:var(--b5);--c:var(--c5)}
+.r1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{background:var(--c);border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.fac{font-weight:700;color:var(--pet);margin-top:2px}.art{color:var(--mut)}
+.g{display:grid;grid-template-columns:repeat(5,auto);gap:4px 10px;margin-top:8px;font-size:14px}
+.g i{display:block;font-style:normal;font-size:11px;color:var(--mut)}
+.g .ret{background:var(--c);border-radius:6px;padding:2px 6px;font-weight:700}
+.obs{margin-top:6px;font-size:13px;color:var(--mut)}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+button,select,input{font:inherit;color:var(--tx)}
+.acts button,.bar button,dialog button{background:var(--card);border:1px solid var(--ln);border-radius:8px;padding:7px 12px}
+button.pri{background:var(--navy);color:#fff;border-color:var(--navy)}button.dng{color:#B03A3A}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px}
+.chips button{border:1px solid var(--ln);background:var(--card);border-radius:99px;padding:6px 12px;white-space:nowrap}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.bar{display:flex;gap:8px;margin:6px 0}.bar input,.bar select{flex:1;min-width:0;padding:8px;border:1px solid var(--ln);border-radius:8px;background:var(--card)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px);z-index:9}
+nav button{flex:1;background:none;border:0;padding:8px 2px;font-size:11px;color:var(--mut)}nav button b{display:block;font-size:19px}
+nav button.on{color:var(--lk);font-weight:700}
+.emp{color:var(--mut);padding:18px;text-align:center}
+dialog{border:0;border-radius:14px;max-width:420px;width:94%;background:var(--card);color:var(--tx);padding:16px}
+dialog::backdrop{background:#0008}dialog h3{margin:0 0 8px;color:var(--pet)}
+dialog label{display:block;font-size:13px;color:var(--mut);margin-top:8px}
+dialog input,dialog select,dialog textarea{width:100%;padding:8px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);margin-top:2px}
+#err{color:#B03A3A;font-size:13px;margin-top:8px;white-space:pre-line}
+a{color:var(--lk)}
+</style>
+</head>
+<body>
+<header><h1>Controle de Produção<small id="rl"></small></h1><button id="mn">Dados</button></header>
+<main id="main"></main>
+<nav id="nav"></nav>
+<dialog id="dlg"></dialog>
+<script>
+const SET=["PCP","CORTE","ESTAMPARIA","COSTURA","APLIQUE","BORDADO"],INT=["PCP INTERNO","CORTE INTERNO","BUCHMANN"],
+DISP=["🟢 DISPONÍVEL","🟡 PRÓXIMA DE FINALIZAR","🔴 OCUPADA","⚪ AGUARDANDO CONFIRMAÇÃO"],
+ST=["ATRASADO","URGENTE","ATENÇÃO","NO PRAZO","SEM DATA","FINALIZADO"],IC=["🔴","🟠","🟡","🟢","⚪","🔵"],
+WD=["dom","seg","ter","qua","qui","sex","sáb"],$=id=>document.getElementById(id);
+let S={ofs:[],facs:[]},tab="painel",cur="PCP",Q="",F="TODAS",FQ="",FD="TODAS",ADM=false,DB=null,LOC=null,mig=false,last={ofs:{},facs:{}},wq=Promise.resolve();
+try{LOC=JSON.parse(localStorage.getItem("pcp")||"")}catch(e){}
+const fid=n=>String(n).replace(/[^A-Za-z0-9_.~:@+-]/g,c=>"_"+c.charCodeAt(0).toString(16)).slice(0,190)||"_";
+function save(){
+ if(!DB){try{localStorage.setItem("pcp",JSON.stringify(S))}catch(e){}return}
+ if(!ADM)return;const ops=[];
+ for(const k of["ofs","facs"]){const cur={};
+  for(const o of S[k]){const id=k==="ofs"?o.id:fid(o.nome),j=JSON.stringify(o);cur[id]=1;if(last[k][id]!==j){last[k][id]=j;ops.push(()=>DB.doc(k+"/"+id).set(JSON.parse(j)))}}
+  for(const id in last[k])if(!cur[id]){delete last[k][id];ops.push(()=>DB.doc(k+"/"+id).delete())}}
+ wq=wq.then(async()=>{for(const f of ops){try{await f()}catch(e){msg("Não foi possível salvar","<p>"+E(e&&e.message||"Erro ao gravar. Verifique se você é administrador.")+"</p>");break}}})}
+function sub(k){DB.collection(k).onSnapshot(s=>{
+ if(s.empty&&!mig&&ADM&&k==="ofs"&&LOC&&LOC.ofs&&LOC.ofs.length){mig=true;S={ofs:LOC.ofs,facs:LOC.facs||[]};save();render();return}
+ const a=[];last[k]={};s.docs.forEach(d=>{const v=d.data();a.push(Object.assign({},v));last[k][d.id]=JSON.stringify(v)});S[k]=a;render()},()=>{})}
+const E=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const ck=(d,mo,dd)=>d.getMonth()===mo-1&&d.getDate()===dd?d:null;
+const pd=s=>{if(!s)return null;let m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(s);if(m)return ck(new Date(+m[1],m[2]-1,+m[3]),+m[2],+m[3]);
+ m=/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec(String(s).trim());if(m){let y=+m[3];if(y<100)y+=2000;return ck(new Date(y,m[2]-1,+m[1]),+m[2],+m[1])}return null};
+const z=n=>String(n).padStart(2,"0");
+const iso=d=>d?d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()):"";
+const br=s=>{const d=pd(s);return d?z(d.getDate())+"/"+z(d.getMonth()+1)+"/"+d.getFullYear():""};
+const num=n=>Number(n||0).toLocaleString("pt-BR");
+const sum=(a,k)=>a.reduce((t,o)=>t+(+o[k]||0),0);
+const toint=s=>{s=String(s==null?"":s).replace(/\s/g,"");if(s==="")return null;if(/^\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,"");const n=parseFloat(s.replace(",","."));return isFinite(n)?Math.floor(n):null};
+const calc=o=>{const q=+o.qtd||0,r=+o.rec||0,p=Math.max(q-r,0),d=pd(o.prev),dias=d?Math.round((d-today())/864e5):null;let s;
+ if(q>0&&p===0)s=5;else if(dias==null)s=4;else if(dias<0)s=0;else if(dias<=1)s=1;else if(dias<=3)s=2;else s=3;return Object.assign({},o,{p,dias,s})};
+const all=()=>S.ofs.map(calc),op=()=>all().filter(o=>o.s!==5);
+const cmp=(a,b)=>a.s-b.s||(a.dias==null?99999:a.dias)-(b.dias==null?99999:b.dias)||(a.pri||"9").charCodeAt(0)-(b.pri||"9").charCodeAt(0);
+function ensureFac(n,s){if(n&&!INT.includes(n)&&!S.facs.some(f=>f.nome===n))S.facs.push({nome:n,cidade:"",setor:s||"",disp:DISP[3],obs:""})}
+
+const card=(o,acts=true)=>`<div class="card s${o.s}"><div class="r1"><b>OF ${E(o.nof)}${tab!=="setor"?" · "+E(o.setor):""}</b><span class="pill">${IC[o.s]} ${ST[o.s]}</span></div>
+<div class="fac">${E(o.fac)||"facção a preencher"}</div><div class="art">${E(o.art)}</div>
+<div class="g"><div><i>Qtd</i>${num(o.qtd)}</div><div><i>Saída</i>${br(o.saida)||"—"}</div><div class="ret"><i>Retorno previsto</i>${br(o.prev)||"preencher"}</div><div><i>Dias</i>${o.dias==null?"—":o.dias}</div><div><i>Pendente</i>${num(o.p)}</div></div>
+${o.obs?`<div class="obs">${E(o.obs)}</div>`:""}${acts&&ADM?`<div class="acts"><button data-r="${o.id}">Receber peças</button><button data-e="${o.id}">Editar</button></div>`:""}</div>`;
+const h2=(t,n)=>`<h2>${t}${n==null?"":` <small>(${n})</small>`}</h2>`;
+const empty=t=>`<p class="emp">${t}</p>`;
+
+function vPainel(){const R=all(),A=R.filter(o=>o.s!==5),n=s=>A.filter(o=>o.s===s).length;
+ const k=[["OFs abertas",A.length],["Peças em produção",sum(A,"p")],["Peças finalizadas",sum(R,"rec")],["Peças pendentes",sum(R,"p")],["OFs atrasadas",n(0)],["OFs urgentes",n(1)],["OFs no prazo",n(2)+n(3)],["Facções ativas",new Set(A.map(o=>o.fac)).size]];
+ const late=A.filter(o=>o.s===0).sort(cmp),hoje=A.filter(o=>o.dias===0&&o.p>0).sort(cmp),dis=S.facs.filter(f=>f.disp===DISP[0]);
+ $("main").innerHTML=`<div class="kp">${k.map((x,i)=>`<div class="${i>3?"":"k1"}"><b>${num(x[1])}</b><span>${x[0]}</span></div>`).join("")}</div>
+ ${h2("Por setor")}<table><tr><th>Setor</th><th>OFs</th><th>Peças</th><th>Atras.</th><th>Urg.</th></tr>${SET.map(s=>{const x=A.filter(o=>o.setor===s);return`<tr><td>${s}</td><td>${x.length}</td><td>${num(sum(x,"p"))}</td><td>${x.filter(o=>o.s===0).length}</td><td>${x.filter(o=>o.s===1).length}</td></tr>`}).join("")}</table>
+ ${h2("O que está atrasado?",late.length)}${late.map(o=>card(o)).join("")||empty("Nada atrasado. 🎉")}
+ ${h2("O que precisa ser entregue hoje?",hoje.length)}${hoje.map(o=>card(o)).join("")||empty("Nenhuma entrega prevista para hoje.")}
+ ${h2("Quais facções estão disponíveis?",dis.length)}${dis.map(f=>`<div class="card s3"><b>${E(f.nome)}</b> <span class="art">${E(f.cidade)} ${E(f.setor)}</span></div>`).join("")||empty("Nenhuma facção confirmada como disponível.")}`}
+
+function lst(){const q=nm(Q),L=all().filter(o=>o.setor===cur&&(F==="TODAS"||ST[o.s]===F)&&(!q||nm([o.nof,o.fac,o.art,o.obs,o.pri].join(" ")).includes(q))).sort(cmp);
+ $("lst").innerHTML=L.map(o=>card(o)).join("")||empty("Nenhuma OF aqui."+(ADM?" Toque em “Nova OF” ou importe seu relatório em “Dados”.":""))}
+function vSetor(){const A=op();
+ $("main").innerHTML=`<div class="chips">${SET.map(s=>`<button data-s="${s}" class="${s===cur?"on":""}">${s} (${A.filter(o=>o.setor===s).length})</button>`).join("")}</div>
+ <div class="bar"><input id="q" placeholder="Buscar OF, facção ou artigo" value="${E(Q)}"><select id="f">${["TODAS",...ST].map(x=>`<option${x===F?" selected":""}>${x}</option>`).join("")}</select></div>
+ ${ADM?'<div class="bar"><button class="pri" id="nof">+ Nova OF</button></div>':""}<div id="lst"></div>`;
+ $("q").oninput=e=>{Q=e.target.value;lst()};$("f").onchange=e=>{F=e.target.value;lst()};lst()}
+
+function facInfo(){const A=op().filter(o=>o.p>0);return S.facs.slice().sort((a,b)=>a.nome.localeCompare(b.nome)).map(f=>{
+ const o=A.filter(x=>x.fac===f.nome),ds=o.map(x=>pd(x.prev)).filter(Boolean),px=ds.length?new Date(Math.min(...ds)):null;
+ return Object.assign({},f,{n:o.length,pc:sum(o,"p"),px,pr:px?sum(o.filter(x=>+pd(x.prev)===+px),"p"):0,s:o.length?Math.min(...o.map(x=>x.s)):4})})}
+function flst(){const q=nm(FQ),L=facInfo().filter(f=>(FD==="TODAS"||f.disp===FD)&&(!q||nm([f.nome,f.cidade,f.setor].join(" ")).includes(q)));
+ $("flst").innerHTML=L.map(f=>`<div class="card s${f.s}"><div class="r1"><b>${E(f.nome)}</b><span class="pill">${E(f.disp)}</span></div>
+ <div class="art">${E(f.cidade)||"cidade a preencher"} · ${E(f.setor)||"setor a preencher"}</div>
+ <div class="g"><div><i>OFs em andamento</i>${f.n}</div><div><i>Peças em produção</i>${num(f.pc)}</div><div class="ret"><i>Próximo retorno</i>${f.px?br(iso(f.px)):"—"}</div><div><i>Peças a retornar</i>${num(f.pr)}</div></div>
+ ${f.obs?`<div class="obs">${E(f.obs)}</div>`:""}${ADM?`<div class="acts"><button data-fe="${E(f.nome)}">Editar / confirmar disponibilidade</button></div>`:""}</div>`).join("")||empty("Nenhuma facção cadastrada.")}
+function vFac(){$("main").innerHTML=`<div class="bar"><input id="fq" placeholder="Buscar facção, cidade ou setor" value="${E(FQ)}"><select id="fd">${["TODAS",...DISP].map(x=>`<option${x===FD?" selected":""}>${x}</option>`).join("")}</select></div>
+ ${ADM?'<div class="bar"><button class="pri" id="nfac">+ Nova facção</button></div>':""}<div id="flst"></div>`;
+ $("fq").oninput=e=>{FQ=e.target.value;flst()};$("fd").onchange=e=>{FD=e.target.value;flst()};flst()}
+
+function vProg(){const A=op().filter(o=>o.p>0&&o.dias!=null),late=A.filter(o=>o.dias<0).sort(cmp),nx=A.filter(o=>o.dias>=0&&o.dias<=15).sort((a,b)=>a.dias-b.dias||cmp(a,b)),days=[...new Set(nx.map(o=>o.prev))];
+ $("main").innerHTML=h2("Atrasadas, ainda não concluídas",late.length)+(late.map(o=>card(o)).join("")||empty("Nenhuma atrasada."))+
+ days.map(d=>{const x=nx.filter(o=>o.prev===d),dt=pd(d);return h2(`${WD[dt.getDay()]} ${br(d)}`)+`<p class="art">Entregam: ${[...new Set(x.map(o=>o.fac))].map(E).join(", ")} · ${num(sum(x,"p"))} peças</p>`+x.map(o=>card(o)).join("")}).join("")||empty("Nenhum retorno previsto nos próximos 15 dias.")}
+function vUrg(){const A=op().filter(o=>o.p>0&&o.dias!=null),G=[["Atrasadas",d=>d<0],["Vencem hoje",d=>d===0],["Vencem amanhã",d=>d===1],["Próximos 3 dias",d=>d>=2&&d<=3]];
+ $("main").innerHTML=G.map(([t,f])=>{const x=A.filter(o=>f(o.dias)).sort(cmp);return h2(t,x.length)+(x.map(o=>card(o)).join("")||empty("Nada nesta lista."))}).join("")}
+
+const TABS=[["painel","📊","Painel",vPainel],["setor","🧵","Setores",vSetor],["fac","🏭","Facções",vFac],["prog","📅","15 dias",vProg],["urg","🚨","Urgências",vUrg]];
+function render(){document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));TABS.find(t=>t[0]===tab)[3]()}
+$("nav").innerHTML=TABS.map(t=>`<button data-t="${t[0]}"><b>${t[1]}</b>${t[2]}</button>`).join("");
+$("nav").onclick=e=>{const b=e.target.closest("button");if(b){tab=b.dataset.t;render();scrollTo(0,0)}};
+$("main").onclick=e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+ if(d.r)recebe(d.r);else if(d.e)editaOF(d.e);else if(d.s){cur=d.s;render()}else if(d.fe)editaFac(d.fe);else if(b.id==="nof")editaOF(null);else if(b.id==="nfac")editaFac(null)};
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)render()});
+
+function form(t,fs,v,ok,del){const d=$("dlg");
+ d.innerHTML=`<h3>${t}</h3>`+fs.map(([k,l,ty,o])=>`<label>${l}`+(ty==="sel"?`<select id="f_${k}">${o.map(x=>`<option${x===v[k]?" selected":""}>${E(x)}</option>`).join("")}</select>`
+ :`<input id="f_${k}" type="${ty==="list"?"text":ty}" value="${E(v[k])}"${ty==="list"?` list="dl_${k}"`:""}${ty==="number"?' min="0" inputmode="numeric"':""}>`+(ty==="list"?`<datalist id="dl_${k}">${o.map(x=>`<option value="${E(x)}">`).join("")}</datalist>`:""))+`</label>`).join("")
+ +`<div id="err"></div><div class="acts"><button class="pri" id="bs">Salvar</button><button id="bc">Cancelar</button>${del?'<button class="dng" id="bd">Excluir</button>':""}</div>`;
+ $("bc").onclick=()=>d.close();
+ $("bs").onclick=()=>{const r={};fs.forEach(([k])=>r[k]=$("f_"+k).value.trim());const e=ok(r);if(e)$("err").textContent=e;else{d.close();save();render()}};
+ if(del)$("bd").onclick=()=>{if($("bd").dataset.c){del();d.close();save();render()}else{$("bd").dataset.c=1;$("bd").textContent="Confirmar exclusão"}};
+ d.showModal()}
+
+function editaOF(id){const o=id?S.ofs.find(x=>x.id===id):null,v=o?Object.assign({},o):{setor:cur,rec:0};
+ form(o?"Editar OF":`Nova OF · ${cur}`,[["pri","Prioridade","sel",["","1 - ALTA","2 - MÉDIA","3 - BAIXA"]],["nof","Nº da OF","text"],["fac","Facção / responsável","list",["",...INT,...S.facs.map(f=>f.nome)]],["art","Artigo / produto","text"],
+ ["qtd","Quantidade de peças","number"],["saida","Data de saída","date"],["prev","Retorno previsto","date"],["real","Data de retorno real","date"],["rec","Quantidade recebida","number"],["obs","Observações","text"]],v,d=>{
+ const er=[],q=toint(d.qtd),rc=toint(d.rec||"0");
+ if(!d.nof)er.push("Informe o número da OF.");if(!d.fac)er.push("Informe a facção ou responsável.");
+ if(q==null||q<0)er.push("Quantidade de peças inválida.");if(rc==null||rc<0)er.push("Quantidade recebida inválida.");
+ if(q!=null&&rc!=null&&rc>q)er.push("Recebido não pode ser maior que a quantidade programada.");
+ if(d.saida&&d.prev&&d.prev<d.saida)er.push("O retorno previsto não pode ser anterior à saída.");
+ if(er.length)return er.join("\n");
+ if(!o&&S.ofs.some(x=>x.setor===v.setor&&x.nof===d.nof&&x.fac===d.fac&&x.art===d.art))return"Esta OF já está cadastrada neste setor para esta facção e artigo.";
+ const n=Object.assign({},o||{id:Date.now()+"-"+Math.random().toString(36).slice(2,6),setor:cur},d,{qtd:q,rec:rc});
+ if(o)Object.assign(o,n);else S.ofs.push(n);ensureFac(d.fac,n.setor)},o?()=>{S.ofs=S.ofs.filter(x=>x.id!==id)}:null)}
+function recebe(id){const o=S.ofs.find(x=>x.id===id),p=calc(o).p;
+ if(!p){msg("OF finalizada","<p>Esta OF já foi totalmente recebida.</p>");return}
+ form(`Receber peças · OF ${E(o.nof)}`,[["n",`Quantidade recebida agora (pendente: ${p})`,"number"]],{n:""},d=>{const n=toint(d.n);
+ if(!(n>0)||n>p)return`Informe um número entre 1 e ${p}.`;o.rec=(+o.rec||0)+n;if(n===p&&!o.real)o.real=iso(today())})}
+function editaFac(nome){const f=nome?S.facs.find(x=>x.nome===nome):null;
+ form(f?"Editar facção":"Nova facção",[["nome","Nome da facção","text"],["cidade","Cidade / região","text"],["setor","Setor de atuação","sel",["",...SET]],["disp","Disponibilidade confirmada","sel",DISP],["obs","Observações","text"]],f||{disp:DISP[3]},d=>{
+ if(!d.nome)return"Informe o nome da facção.";if(!f&&S.facs.some(x=>x.nome===d.nome))return"Facção já cadastrada.";
+ if(f)Object.assign(f,d);else S.facs.push(d)})}
+function msg(t,h){const d=$("dlg");d.innerHTML=`<h3>${t}</h3>${h}<div class="acts"><button class="pri" id="bc">Fechar</button></div>`;$("bc").onclick=()=>d.close();d.showModal()}
+
+// ---- Dados: importar / exportar / backup ----
+const SYN={pri:["prioridade"],nof:["of","n of","no of","numero da of","ordem de fabricacao","nof"],fac:["faccao","nome da faccao","faccao / responsavel","faccao/responsavel","responsavel"],art:["artigo","produto","artigo / produto","artigo/produto"],qtd:["quantidade","quantidade de pecas","qtd","pecas"],saida:["data de saida","saida"],prev:["retorno previsto","retorno","previsao"],real:["data de retorno real","retorno real"],rec:["quantidade recebida","recebida"],obs:["observacoes","observacao","obs"],setor:["setor"]};
+function parseCSV(t,dl){const R=[];let r=[],c="",q=false;for(let i=0;i<t.length;i++){const h=t[i];
+ if(q){if(h==='"'){if(t[i+1]==='"'){c+='"';i++}else q=false}else c+=h}else if(h==='"')q=true;else if(h===dl){r.push(c);c=""}
+ else if(h==="\n"||h==="\r"){if(h==="\r"&&t[i+1]==="\n")i++;r.push(c);R.push(r);r=[];c=""}else c+=h}
+ if(c||r.length){r.push(c);R.push(r)}return R.filter(r=>r.some(x=>x.trim()))}
+function importa(txt){txt=txt.replace(/^\uFEFF/,"");
+ if(txt.trim()[0]==="{"){try{const j=JSON.parse(txt);if(!j.ofs||!j.facs)throw 0;S=j;save();render();msg("Backup restaurado",`<p>${j.ofs.length} OFs e ${j.facs.length} facções carregadas.</p>`)}catch(e){msg("Backup inválido","<p>O texto colado não é um backup deste app.</p>")}return}
+ const first=txt.split("\n")[0],dl=[";",",","\t"].sort((a,b)=>first.split(b).length-first.split(a).length)[0],R=parseCSV(txt,dl);
+ if(R.length<2){msg("Importação","<p>Nenhum registro encontrado.</p>");return}
+ const hd=R[0].map(nm),ix={};for(const k in SYN)ix[k]=hd.findIndex(h=>SYN[k].includes(h));
+ if(ix.nof<0){msg("Importação","<p>Não encontrei a coluna da OF no cabeçalho.</p>");return}
+ let lidos=0,ok=0,dup=0,ign=0,fl=0;
+ for(const row of R.slice(1)){lidos++;const g=k=>ix[k]>=0&&row[ix[k]]!=null?row[ix[k]].trim():"";
+  const setor=SET.find(s=>nm(s)===nm(ix.setor>=0?g("setor"):cur));if(!setor||!g("nof")){ign++;continue}
+  let obs=g("obs"),q=toint(g("qtd")),rc=toint(g("rec")||"0");const D={};
+  for(const k of["saida","prev","real"]){const d=pd(g(k));D[k]=iso(d);if(g(k)&&!d)obs+=` [PREENCHER ${k}]`}
+  if(q==null)obs+=" [PREENCHER quantidade]";if(!g("fac"))obs+=" [PREENCHER facção]";if(obs.includes("[PREENCHER"))fl++;
+  if(S.ofs.some(x=>x.setor===setor&&x.nof===g("nof")&&x.fac===g("fac")&&x.art===g("art"))){dup++;continue}
+  S.ofs.push({id:Date.now()+"-"+Math.random().toString(36).slice(2,7),setor,pri:g("pri"),nof:g("nof"),fac:g("fac"),art:g("art"),qtd:q||0,saida:D.saida,prev:D.prev,real:D.real,rec:rc==null?0:rc,obs:obs.trim()});ensureFac(g("fac"),setor);ok++}
+ save();render();msg("Importação concluída",`<p>Lidos: <b>${lidos}</b><br>Importados: <b>${ok}</b><br>Duplicados (ignorados): ${dup}<br>Sem setor ou OF válidos: ${ign}<br>Com campos a preencher: ${fl}</p><p class="art">Confira: lidos = importados + duplicados + ignorados. ${ix.setor<0?`Como o arquivo não tem coluna de setor, tudo entrou em ${cur}.`:""}</p>`)}
+function csvOut(){const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+ return["Setor","Prioridade","OF","Facção","Artigo","Quantidade","Saída","Retorno previsto","Dias restantes","Retorno real","Recebida","Pendente","Situação","Observações"].map(q).join(";")+"\n"+
+ all().sort((a,b)=>SET.indexOf(a.setor)-SET.indexOf(b.setor)||cmp(a,b)).map(o=>[o.setor,o.pri,o.nof,o.fac,o.art,o.qtd,br(o.saida),br(o.prev),o.dias==null?"":o.dias,br(o.real),o.rec,o.p,ST[o.s],o.obs].map(q).join(";")).join("\n")}
+function copia(t,ta){ta.value=t;ta.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}return ok}
+$("mn").onclick=()=>{const d=$("dlg");
+ d.innerHTML=`<h3>Dados</h3>${ADM?`<label>Importar relatório (arquivo CSV)<input type="file" id="fi" accept=".csv,.txt"></label>
+ <label>…ou cole aqui o CSV ou um backup<textarea id="ta" rows="4"></textarea></label>
+ <div class="acts"><button class="pri" id="bi">Importar texto colado</button></div>`:'<textarea id="ta" rows="3" style="width:100%"></textarea>'}
+ <h3 style="margin-top:16px">Exportar</h3><p class="art">Copie a tabela e cole no Excel.</p>
+ <div class="acts"><button id="bx">Copiar tabela (Excel)</button>${ADM?'<button id="bk">Copiar backup</button>':""}</div><div id="err"></div><div class="acts"><button id="bc">Fechar</button></div>`;
+ $("bc").onclick=()=>d.close();
+ if(ADM){$("fi").onchange=async e=>{const b=await e.target.files[0].arrayBuffer();let t;try{t=new TextDecoder("utf-8",{fatal:true}).decode(b)}catch(x){t=new TextDecoder("windows-1252").decode(b)}d.close();importa(t)};
+ $("bi").onclick=()=>{const t=$("ta").value;if(t.trim()){d.close();importa(t)}}}
+ const ex=t=>{const r=copia(t,$("ta"));$("err").style.color="inherit";$("err").textContent=r?"Copiado. Cole onde quiser.":"Texto selecionado acima. Use copiar do celular."};
+ $("bx").onclick=()=>ex(csvOut());if(ADM)$("bk").onclick=()=>ex(JSON.stringify(S));d.showModal()};
+render();
+(async()=>{let u=null;
+ try{if(window.claude){DB=await claude.use("db");u=await claude.use("user")}}catch(e){DB=null}
+ if(DB){try{ADM=u?await u.canEdit():false}catch(e){ADM=false}$("rl").textContent=ADM?"Administrador · dados compartilhados":"Somente leitura";sub("ofs");sub("facs")}
+ else{ADM=true;if(LOC&&LOC.ofs)S=LOC;$("rl").textContent="Modo local (sem compartilhamento)"}
+ render()})();
+</script>
+</body>
+</html>
